@@ -1,0 +1,22 @@
+{
+  "name": "Velora – Deine Musik, deine Welt",
+  "short_name": "Velora",
+  "description": "Deine private Vintage-Musikbibliothek",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7efe7",
+  "theme_color": "#f7efe7",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "music",
+    "lifestyle"
+  ]
+}

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7efe7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Velora">
+  <title>Velora ♡</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">DEINE PRIVATE MUSIKWELT</p>
+        <h1>Velora<span> ♡</span></h1>
+      </div>
+      <button class="avatar-button" id="profileAvatarButton" aria-label="Profilbild ändern">
+        <img id="headerAvatar" alt="Dein Profilbild" src="icon.svg">
+      </button>
+    </header>
+
+    <main>
+      <section class="view active" id="homeView">
+        <div class="hero-card">
+          <div class="hero-copy">
+            <p class="eyebrow">A LITTLE MUSIC DIARY</p>
+            <h2>Deine Musik.<br>Deine kleine Welt.</h2>
+            <p>Ein Platz für Lieder, Erinnerungen und Lieblingsmomente.</p>
+            <button class="primary-button" id="heroImportButton">＋ Musik hinzufügen</button>
+          </div>
+          <div class="hero-flower" aria-hidden="true">✿</div>
+        </div>
+        <div class="section-heading"><h2>Zuletzt hinzugefügt</h2><span class="tiny-label">YOUR RECORDS</span></div>
+        <div id="recentTracks" class="track-list empty-state">Deine ersten Songs warten hier ♡</div>
+        <div class="section-heading"><h2>Meine Playlists</h2><button class="text-button" data-go="playlistsView">Alle ansehen →</button></div>
+        <div id="homePlaylists" class="playlist-grid"></div>
+      </section>
+
+      <section class="view" id="musicView">
+        <div class="page-title"><p class="eyebrow">YOUR COLLECTION</p><h2>Meine Musik</h2></div>
+        <div class="search-row"><input id="searchInput" type="search" placeholder="Song oder Interpret suchen…"><button class="round-button" id="importButton" aria-label="Musik importieren">＋</button></div>
+        <div id="allTracks" class="track-list empty-state">Importiere MP3-Dateien von deinem Gerät.</div>
+      </section>
+
+      <section class="view" id="playlistsView">
+        <div class="page-title page-title-row"><div><p class="eyebrow">MADE BY YOU</p><h2>Playlists</h2></div><button class="primary-button small" id="newPlaylistButton">＋ Neue</button></div>
+        <div id="allPlaylists" class="playlist-grid"></div>
+      </section>
+
+      <section class="view" id="profileView">
+        <div class="page-title"><p class="eyebrow">A PAGE ABOUT YOU</p><h2>Mein Profil</h2></div>
+        <div class="profile-card">
+          <button class="profile-photo-button" id="profilePhotoButton"><img id="profileAvatar" src="icon.svg" alt="Profilbild"><span>Bild ändern</span></button>
+          <label class="field-label" for="profileName">Dein Name</label>
+          <input id="profileName" maxlength="32" placeholder="z. B. lilac rose">
+          <button class="primary-button full" id="saveProfileButton">Profil speichern</button>
+        </div>
+        <div class="note-card"><span>✿</span><div><strong>Deine Musik bleibt privat</strong><p>Velora speichert deine Bibliothek auf diesem Gerät. Exportiere regelmäßig ein Backup, damit du bei einem Gerätewechsel eine Kopie hast.</p></div></div>
+        <button class="secondary-button full" id="backupButton">↓ Backup meiner Bibliothek exportieren</button>
+        <label class="secondary-button full file-label">↑ Backup wiederherstellen<input type="file" id="restoreInput" accept=".json,application/json" hidden></label>
+        <p class="footnote">Hinweis: Ein Backup kann groß werden, wenn viele Songs enthalten sind. Bewahre es sicher in der Dateien-App oder iCloud Drive auf.</p>
+      </section>
+    </main>
+
+    <section class="player-dock" id="playerDock" hidden>
+      <button class="dock-art" id="dockArtButton"><img id="dockCover" src="icon.svg" alt="Cover"></button>
+      <button class="dock-info" id="openPlayerButton"><strong id="dockTitle">Noch kein Song</strong><span id="dockArtist">Füge deine Musik hinzu ♡</span></button>
+      <button class="icon-button" id="dockPlayButton" aria-label="Abspielen oder pausieren">▶</button>
+      <button class="icon-button" id="dockNextButton" aria-label="Nächster Song">↠</button>
+    </section>
+
+    <nav class="tabbar" aria-label="Hauptnavigation">
+      <button class="tab active" data-view="homeView"><span>⌂</span><small>Home</small></button>
+      <button class="tab" data-view="musicView"><span>♫</span><small>Musik</small></button>
+      <button class="tab" data-view="playlistsView"><span>♡</span><small>Playlists</small></button>
+      <button class="tab" data-view="profileView"><span>୨୧</span><small>Profil</small></button>
+    </nav>
+  </div>
+
+  <input type="file" id="audioInput" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac" multiple hidden>
+  <input type="file" id="avatarInput" accept="image/*" hidden>
+  <input type="file" id="coverInput" accept="image/*" hidden>
+
+  <dialog id="playlistDialog">
+    <form method="dialog" id="playlistForm">
+      <div class="dialog-top"><p class="eyebrow">A NEW LITTLE COLLECTION</p><button class="close-button" value="cancel" aria-label="Schließen">×</button></div>
+      <h2 id="playlistDialogTitle">Neue Playlist</h2>
+      <label class="field-label" for="playlistName">Name</label>
+      <input id="playlistName" maxlength="48" placeholder="z. B. dreamy afternoons" required>
+      <label class="field-label" for="playlistDescription">Beschreibung (optional)</label>
+      <textarea id="playlistDescription" rows="2" maxlength="160" placeholder="Songs, die sich nach Frühling anfühlen…"></textarea>
+      <div class="cover-choice"><img id="playlistCoverPreview" src="icon.svg" alt="Playlist-Cover"><button type="button" class="secondary-button" id="choosePlaylistCoverButton">Cover auswählen</button></div>
+      <div class="dialog-actions"><button type="button" class="secondary-button" id="cancelPlaylistButton">Abbrechen</button><button type="submit" class="primary-button">Speichern ♡</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="playlistDetailDialog">
+    <div class="dialog-top"><p class="eyebrow">YOUR LITTLE MIX</p><button class="close-button" id="closeDetailButton" aria-label="Schließen">×</button></div>
+    <div class="detail-hero"><img id="detailCover" src="icon.svg" alt="Playlist-Cover"><div><p class="eyebrow">PLAYLIST</p><h2 id="detailName"></h2><p id="detailDescription" class="muted"></p><p id="detailCount" class="tiny-label"></p></div></div>
+    <div class="detail-actions"><button class="primary-button small" id="addSongsButton">＋ Songs hinzufügen</button><button class="secondary-button small" id="editPlaylistButton">Bearbeiten</button><button class="secondary-button small" id="deletePlaylistButton">Löschen</button></div>
+    <div id="detailTracks" class="track-list"></div>
+  </dialog>
+
+  <dialog id="nowPlayingDialog" class="now-playing-dialog">
+    <div class="dialog-top"><p class="eyebrow">NOW PLAYING</p><button class="close-button" id="closePlayerButton" aria-label="Schließen">×</button></div>
+    <div class="now-playing-content">
+      <div class="record-frame"><img id="bigCover" src="icon.svg" alt="Song-Cover"><span class="sparkle">✧</span></div>
+      <div class="floating-flower" aria-hidden="true">✿</div>
+      <h2 id="bigTitle">Velora ♡</h2><p id="bigArtist" class="muted">Deine Musik, deine Welt</p>
+      <div class="progress-area"><input type="range" id="seekBar" min="0" max="1000" value="0" aria-label="Songposition"><div class="time-row"><span id="currentTime">0:00</span><span id="durationTime">0:00</span></div></div>
+      <div class="player-controls"><button id="prevButton" aria-label="Vorheriger Song">↶</button><button id="mainPlayButton" class="main-play" aria-label="Abspielen">▶</button><button id="nextButton" aria-label="Nächster Song">↠</button></div>
+      <p class="player-caption">a song for this little moment ♡</p>
+    </div>
+  </dialog>
+
+  <audio id="audioElement" preload="metadata"></audio>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
